@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script>
+        if (/\/index\.html$/i.test(location.pathname)) {
+            location.replace(location.pathname.replace(/index\.html$/i, 'mpk-portfolio.html') + location.search + location.hash);
+        }
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praveen K Mani | Film Director</title>
+
+    <meta name="description" content="Portfolio of Praveen K Mani — Indian film director, screenwriter and author working in Tamil cinema.">
+    <meta name="keywords" content="portfolio, director, mpk, praveen k mani, tamil cinema">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon.png">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,300|Open+Sans:400,600,700,300' rel='stylesheet'
+        type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body data-page="index">
+    <a class="skip-link" href="#about">Skip to content</a>
+
+    <!-- Preloader -->
+    <div id="preloader" aria-hidden="true">
+        <div class="loader">
+            <p class="t1">ROLLING...</p>
+            <p class="t2">CAMERA READY...</p>
+            <p class="t3">ACTION...</p>
+        </div>
+    </div>
+
+    <!--Header Starts-->
+    <header class="main-header" id="home">
+        <div class="bannerInnerContent"></div>
+
+        <nav class="nav navbar-default navbar-fixed-top" aria-label="Main navigation">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="navbar-header">
+                        <div class="mpkLogoSlot navbar-brand">
+                            <a class="mpkLogo" href="#home" aria-label="MPK Home">
+                                <span class="mpkLogo__frame">
+                                    <span class="mpkLogo__clapper" aria-hidden="true"></span>
+                                    <span class="mpkLogo__perfs" aria-hidden="true"></span>
+                                    <span class="mpkLogo__letters" aria-hidden="true">
+                                        <span class="mpkLogo__char">M</span>
+                                        <span class="mpkLogo__char mpkLogo__char--p">P</span>
+                                        <span class="mpkLogo__char">K</span>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+
+                        <!-- Fullscreen Overlay -->
+                        <div class="full-screen">
+                            <button type="button" class="button_container" id="toggle" aria-expanded="false" aria-controls="overlay" aria-label="Open menu">
+                                <span class="top"></span>
+                                <span class="middle"></span>
+                                <span class="bottom"></span>
+                            </button>
+
+                            <div class="overlay" id="overlay" aria-hidden="true">
+                                <nav class="overlay-menu" aria-label="Mobile navigation">
+                                    <ul></ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <!--overlay end-->
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right"></ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!--Header Ends-->
+
+    <main id="main-content">
+        <section id="about"></section>
+        <section id="career"></section>
+        <section id="project"></section>
+        <section id="gallery"></section>
+        <section id="production"></section>
+        <section id="contact"></section>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/site-data.js"></script>
+    <script src="js/custom.js"></script>
+
+</body>
+
+</html>

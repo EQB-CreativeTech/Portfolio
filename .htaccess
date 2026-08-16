@@ -1,0 +1,16 @@
+# Portfolio entry — Apache
+DirectoryIndex mpk-portfolio.html index.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Pretty URL without .html (serves mpk-portfolio.html)
+    RewriteRule ^mpk-portfolio$ mpk-portfolio.html [L]
+
+    # Redirect legacy index.html to main entry
+    RewriteRule ^index\.html$ mpk-portfolio.html [R=301,L]
+</IfModule>
+
+<IfModule mod_mime.c>
+    AddType text/html .html
+</IfModule>
