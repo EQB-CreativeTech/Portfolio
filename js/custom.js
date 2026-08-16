@@ -7,14 +7,16 @@
     const aboutData = siteData.about || {};
     const careerData = siteData.career || {};
     const projectData = siteData.project || {};
+    const awardsData = siteData.awards || {};
     const galleryData = siteData.gallery || {};
     const productionData = siteData.production || {};
     const contactData = siteData.contact || {};
     const footerData = siteData.footer || {};
+    const testimonialsData = siteData.testimonials || {};
     const siteSettings = siteData.site || {};
-    const urlSlug = siteSettings.urlSlug || 'mpk-portfolio.html';
+    const urlSlug = siteSettings.urlSlug || 'PraveenKMani.html';
     const scrollOffset = 84;
-    const preloaderMinDuration = 1200;
+    const preloaderMinDuration = siteSettings.preloaderDuration || 1800;
     const pageType = document.body.getAttribute('data-page') || 'index';
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -30,6 +32,20 @@
         })[character];
     });
 
+    const renderMpkLogoInnerMarkup = () => {
+        return [
+            '<span class="mpkLogo__frame">',
+            '  <span class="mpkLogo__clapper" aria-hidden="true"></span>',
+            '  <span class="mpkLogo__perfs" aria-hidden="true"></span>',
+            '  <span class="mpkLogo__letters" aria-hidden="true">',
+            '    <span class="mpkLogo__char">M</span>',
+            '    <span class="mpkLogo__char mpkLogo__char--p">P</span>',
+            '    <span class="mpkLogo__char">K</span>',
+            '  </span>',
+            '</span>'
+        ].join('');
+    };
+
     const renderMpkLogoMarkup = (href, extraClass) => {
         const classes = ['mpkLogo'];
 
@@ -39,17 +55,39 @@
 
         return [
             '<a class="' + escapeHtml(classes.join(' ')) + '" href="' + escapeHtml(href) + '" aria-label="MPK Home">',
-            '  <span class="mpkLogo__frame">',
-            '    <span class="mpkLogo__clapper" aria-hidden="true"></span>',
-            '    <span class="mpkLogo__perfs" aria-hidden="true"></span>',
-            '    <span class="mpkLogo__letters" aria-hidden="true">',
-            '      <span class="mpkLogo__char">M</span>',
-            '      <span class="mpkLogo__char mpkLogo__char--p">P</span>',
-            '      <span class="mpkLogo__char">K</span>',
-            '    </span>',
-            '  </span>',
+            renderMpkLogoInnerMarkup(),
             '</a>'
         ].join('');
+    };
+
+    const initScrollToTop = () => {
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+
+        window.scrollTo(0, 0);
+
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                window.scrollTo(0, 0);
+            }
+        });
+    };
+
+    const mountPreloaderLogo = () => {
+        const loader = document.querySelector('#preloader .loader');
+
+        if (!loader || loader.querySelector('.preloaderLogo')) {
+            return;
+        }
+
+        loader.insertAdjacentHTML('afterbegin', [
+            '<div class="preloaderLogo" aria-hidden="true">',
+            '  <span class="mpkLogo mpkLogo--preloader">',
+            renderMpkLogoInnerMarkup(),
+            '  </span>',
+            '</div>'
+        ].join(''));
     };
 
     const getYouTubeEmbedUrl = (url) => {
@@ -83,20 +121,34 @@
 
     const renderCareerCard = (card) => {
         return [
-            '<div class="flip-card reveal-on-scroll" tabindex="0" role="button" aria-label="Flip card for ' + escapeHtml(card.title) + '">',
+            '<div class="flip-card reveal-on-scroll" tabindex="0" aria-label="Film card for ' + escapeHtml(card.title) + '">',
+            '  <button type="button" class="careerFlipBtn" aria-label="Open poster for ' + escapeHtml(card.title) + '">Open</button>',
             '  <div class="flip-card-inner">',
             '    <div class="flip-card-front">',
             '      <h1>' + escapeHtml(card.title) + '</h1>',
-            '      <p> <strong>Year:</strong><br> ' + escapeHtml(card.year) + '</p>',
-            '      <p> <strong>Synopsis:</strong><br>' + escapeHtml(card.synopsis) + '</p>',
-            '      <p><strong>Starring:</strong><br> ' + escapeHtml(card.starring) + '</p>',
-            '      <p><strong>Production:</strong><br> ' + escapeHtml(card.production) + '</p>',
+            '      <div class="careerField">',
+            '        <strong class="careerFieldLabel">Year:</strong>',
+            '        <span class="careerFieldValue">' + escapeHtml(card.year) + '</span>',
+            '      </div>',
+            '      <div class="careerField">',
+            '        <strong class="careerFieldLabel">Synopsis:</strong>',
+            '        <span class="careerFieldValue">' + escapeHtml(card.synopsis) + '</span>',
+            '      </div>',
+            '      <div class="careerField">',
+            '        <strong class="careerFieldLabel">Starring:</strong>',
+            '        <span class="careerFieldValue">' + escapeHtml(card.starring) + '</span>',
+            '      </div>',
+            '      <div class="careerField">',
+            '        <strong class="careerFieldLabel">Production:</strong>',
+            '        <span class="careerFieldValue">' + escapeHtml(card.production) + '</span>',
+            '      </div>',
             '    </div>',
-            '    <div class="flip-card-back">',
-            '      <img src="' + escapeHtml(card.image) + '" alt="' + escapeHtml(card.title) + '">',
+            '    <div class="flip-card-back" role="button" tabindex="-1" aria-label="Tap to return to film details">',
+            '      <img src="' + escapeHtml(card.image) + '" alt="' + escapeHtml(card.title) + ' poster" loading="lazy" decoding="async">',
+            '      <span class="careerFlipBackHint">Tap image to go back</span>',
             '    </div>',
             '  </div>',
-            '  <a href="' + escapeHtml(card.link) + '" target="_blank" rel="noopener" class="careerBtn">Watch Film</a>',
+            '  <a href="' + escapeHtml(card.link) + '" target="_blank" rel="noopener" class="careerBtn careerWatchBar"><span class="careerWatchLabel">Watch Film</span></a>',
             '</div>'
         ].join('');
     };
@@ -108,16 +160,28 @@
         return [
             '<button type="button" class="mix ' + sizeClass + ' ' + escapeHtml(item.category) + '" data-category="' + escapeHtml(item.category) + '" data-gallery-index="' + index + '" data-full-src="' + escapeHtml(item.src) + '" aria-label="View full image: ' + escapeHtml(item.alt) + '">',
             '  <span class="mixMedia">',
-            '    <img src="' + escapeHtml(item.src) + '" alt="' + escapeHtml(item.alt) + '" loading="lazy">',
+            '    <img src="' + escapeHtml(item.src) + '" alt="' + escapeHtml(item.alt) + '" loading="lazy" decoding="async">',
             '    <span class="mixOverlay" aria-hidden="true"><i class="fa fa-search-plus"></i></span>',
             '  </span>',
             '</button>'
         ].join('');
     };
 
+    const renderProjectLinks = (card) => {
+        if (!card.externalLinks || !card.externalLinks.length) {
+            return '';
+        }
+
+        const linksHtml = card.externalLinks.map(function (link) {
+            return '<a href="' + escapeHtml(link.href) + '" target="_blank" rel="noopener" class="projectExternalLink">' + escapeHtml(link.label) + '</a>';
+        }).join('');
+
+        return '<div class="projectExternalLinks">' + linksHtml + '</div>';
+    };
+
     const renderProjectCard = (card, options) => {
         const opts = options || {};
-        const watchClass = opts.trailerModal ? ' projectWatchBtn' : '';
+        const watchClass = ' projectWatchCta' + (opts.trailerModal ? ' projectWatchBtn' : '');
         const watchAttrs = opts.trailerModal
             ? ' href="#" data-trailer="' + escapeHtml(card.link) + '" data-title="' + escapeHtml(card.title) + '"'
             : ' href="' + escapeHtml(card.link) + '" target="_blank" rel="noopener"';
@@ -125,7 +189,7 @@
         return [
             '<article class="projectCard reveal-on-scroll" data-format="' + escapeHtml(getProjectFilterKey(card)) + '" data-status="' + escapeHtml(String(card.status || '').toLowerCase()) + '">',
             '  <div class="projectCardMedia">',
-            '    <img src="' + escapeHtml(card.image) + '" alt="' + escapeHtml(card.title) + '">',
+            '    <img src="' + escapeHtml(card.image) + '" alt="' + escapeHtml(card.title) + '" loading="lazy" decoding="async">',
             '  </div>',
             '  <div class="projectCardBody">',
             '    <div class="projectCardMeta">',
@@ -135,10 +199,11 @@
             '    </div>',
             '    <h3>' + escapeHtml(card.title) + '</h3>',
             '    <p>' + escapeHtml(card.synopsis) + '</p>',
+            renderProjectLinks(card),
             '    <div class="projectCardFooter">',
             '      <strong>' + escapeHtml(card.role) + '</strong>',
-            '      <a class="projectWatchLink' + watchClass + '"' + watchAttrs + '>Watch</a>',
             '    </div>',
+            '    <a class="projectWatchLink projectCardWatch' + watchClass + '"' + watchAttrs + '><span class="projectWatchLabel">Watch</span></a>',
             '  </div>',
             '</article>'
         ].join('');
@@ -155,8 +220,8 @@
         const idealWidth = MASONRY_THUMB_MAX + MASONRY_GAP;
         let columns = Math.floor(containerWidth / idealWidth);
 
-        if (window.innerWidth < 480) {
-            return Math.max(2, columns);
+        if (window.innerWidth < 576) {
+            return 2;
         }
 
         if (window.innerWidth < 768) {
@@ -337,6 +402,46 @@
         $('.overlay-menu ul').html(navItemsHtml);
     };
 
+    const applyBannerImages = () => {
+        const heroImages = heroData.images || {};
+        const aboutImages = aboutData.images || {};
+        const root = document.documentElement;
+        const header = document.querySelector('.main-header');
+
+        if (heroImages.background) {
+            const bgValue = "url('" + heroImages.background + "')";
+
+            root.style.setProperty('--mpk-banner-bg', bgValue);
+
+            if (header) {
+                header.style.backgroundImage = bgValue;
+                header.style.backgroundRepeat = 'no-repeat';
+                header.style.backgroundSize = 'cover';
+                header.style.backgroundPosition = 'center top';
+            }
+        }
+
+        if (heroImages.portrait) {
+            root.style.setProperty('--mpk-banner-portrait', "url('" + heroImages.portrait + "')");
+
+            const portraitImg = document.getElementById('portfolioImg');
+
+            if (portraitImg) {
+                portraitImg.setAttribute('src', heroImages.portrait);
+            }
+        }
+
+        if (aboutImages.portrait) {
+            root.style.setProperty('--mpk-about-portrait', "url('" + aboutImages.portrait + "')");
+
+            const aboutImg = document.querySelector('.bulletLeftImgData');
+
+            if (aboutImg) {
+                aboutImg.setAttribute('src', aboutImages.portrait);
+            }
+        }
+    };
+
     const renderHero = () => {
         const $heroMount = $('.bannerInnerContent');
 
@@ -344,15 +449,32 @@
             return;
         }
 
+        const portraitSrc = (heroData.images && heroData.images.portrait) || 'assets/images/banner/mpk1.jpg';
+        const showreel = heroData.showreel || {};
+        const ctaSecondary = heroData.ctaSecondary || {};
+        const showreelHtml = showreel.href
+            ? '<a class="heroCta heroCta--primary" href="' + escapeHtml(showreel.href) + '" target="_blank" rel="noopener"><i class="fa fa-play" aria-hidden="true"></i> ' + escapeHtml(showreel.label || 'Watch Showreel') + '</a>'
+            : '';
+        const secondaryHtml = ctaSecondary.href
+            ? '<a class="heroCta heroCta--secondary" href="' + escapeHtml(ctaSecondary.href) + '">' + escapeHtml(ctaSecondary.label || 'View Projects') + '</a>'
+            : '';
+        const heroActionsHtml = (showreelHtml || secondaryHtml)
+            ? '<div class="heroActions">' + showreelHtml + secondaryHtml + '</div>'
+            : '';
+
         $heroMount.html([
-            '<p class="profileText">' + escapeHtml(heroData.eyebrow) + ' <span class="icon" aria-hidden="true">→</span></p>',
-            '<div class="banner_innerImg">',
-            '  <div id="portfolioImg" role="img" aria-label="' + escapeHtml(heroData.imageAlt) + '"></div>',
-            '</div>',
-            '<div class="banner_innerText">',
-            '  <h4>' + escapeHtml(heroData.name) + '</h4>',
-            '  <p>' + escapeHtml(heroData.title) + '</p>',
-            '  <p class="profileLine">"' + escapeHtml(heroData.quote) + '"</p>',
+            '<div class="heroStage">',
+            '  <div class="banner_innerImg heroPortrait">',
+            '    <span class="heroPortraitFrame" aria-hidden="true"></span>',
+            '    <img id="portfolioImg" src="' + escapeHtml(portraitSrc) + '" alt="' + escapeHtml(heroData.imageAlt) + '" decoding="async" fetchpriority="high">',
+            '  </div>',
+            '  <div class="banner_innerText heroCopy">',
+            '    <p class="heroEyebrow">' + escapeHtml(heroData.eyebrow) + '<span class="icon" aria-hidden="true">→</span></p>',
+            '    <h4 class="heroName">' + escapeHtml(heroData.name) + '</h4>',
+            '    <p class="heroTitle">' + escapeHtml(heroData.title) + '</p>',
+            '    <p class="profileLine">"' + escapeHtml(heroData.quote) + '"</p>',
+            heroActionsHtml,
+            '  </div>',
             '</div>'
         ].join('\n'));
     };
@@ -368,22 +490,28 @@
             return '<li>' + escapeHtml(bullet) + '</li>';
         }).join('');
 
+        const aboutPortrait = (aboutData.images && aboutData.images.portrait) || 'assets/images/banner/mpk2.jpg';
+
         $aboutMount.html([
-            '<div class="aboutContent reveal-on-scroll">',
-            '  <div class="aboutWrapper">',
-            '    <h2>' + escapeHtml(aboutData.title) + '</h2>',
-            '    <p>' + escapeHtml(aboutData.intro) + '</p>',
-            '    <p>' + escapeHtml(aboutData.secondary) + '</p>',
-            '  </div>',
-            '  <div class="aboutBulletContainer">',
-            '    <div class="bulletLeftImg">',
-            '      <div class="bulletLeftImgData"></div>',
+            '<div class="aboutSection contentSection reveal-on-scroll">',
+            '  <div class="aboutContent">',
+            '    <div class="aboutWrapper">',
+            '      <h2>' + escapeHtml(aboutData.title) + '</h2>',
+            '      <p class="sectionIntro">' + escapeHtml(aboutData.intro) + '</p>',
+            '      <p class="sectionIntro aboutSecondary">' + escapeHtml(aboutData.secondary) + '</p>',
             '    </div>',
-            '    <div class="bulletRightList">',
-            '      <div class="bulletRightListData">',
-            '        <h3><span class="underline">' + escapeHtml(aboutData.heading) + '</span></h3>',
-            '        <p>' + escapeHtml(aboutData.body) + '</p>',
-            '        <ul>' + bulletItems + '</ul>',
+            '    <div class="aboutBulletContainer">',
+            '      <div class="bulletLeftImg hide-on-mobile">',
+            '        <img class="bulletLeftImgData" src="' + escapeHtml(aboutPortrait) + '" alt="Praveen K Mani portrait" decoding="async">',
+            '      </div>',
+            '      <div class="aboutDetailCard">',
+            '        <div class="bulletRightList">',
+            '          <div class="bulletRightListData">',
+            '            <h3><span class="underline">' + escapeHtml(aboutData.heading) + '</span></h3>',
+            '            <p>' + escapeHtml(aboutData.body) + '</p>',
+            '            <ul>' + bulletItems + '</ul>',
+            '          </div>',
+            '        </div>',
             '      </div>',
             '    </div>',
             '  </div>',
@@ -401,12 +529,150 @@
         const cardsHtml = careerData.projects.map(renderCareerCard).join('');
 
         $careerMount.html([
-            '<div class="careerSection">',
+            '<div class="careerSection contentSection">',
             '  <h2 class="reveal-on-scroll">' + escapeHtml(careerData.title) + '</h2>',
-            '  <p class="careerIntro reveal-on-scroll">' + escapeHtml(careerData.intro) + '</p>',
-            '  <div class="careerDataWrapper">',
+            '  <p class="careerIntro sectionIntro reveal-on-scroll">' + escapeHtml(careerData.intro) + '</p>',
+            '  <div class="careerCardGrid">',
             '    <div class="careerDataInnerWrapper">' + cardsHtml + '</div>',
             '  </div>',
+            '</div>'
+        ].join(''));
+    };
+
+    const renderAwardList = (items) => {
+        return (items || []).map(function (item) {
+            return [
+                '<div class="awardEntry">',
+                '  <span class="awardEntryDot" aria-hidden="true"></span>',
+                '  <div class="awardEntryContent">',
+                '    <strong class="awardEntryTitle">' + escapeHtml(item.title) + '</strong>',
+                '    <p class="awardEntryDesc">' + escapeHtml(item.description) + '</p>',
+                '  </div>',
+                '</div>'
+            ].join('');
+        }).join('');
+    };
+
+    const renderAboutList = (items) => {
+        return (items || []).map(function (item) {
+            return [
+                '<div class="awardEntry awardEntry--about">',
+                '  <span class="awardEntryDot" aria-hidden="true"></span>',
+                '  <div class="awardEntryContent">',
+                '    <strong class="awardEntryTitle">' + escapeHtml(item.label) + '</strong>',
+                '    <p class="awardEntryDesc">' + escapeHtml(item.text) + '</p>',
+                '  </div>',
+                '</div>'
+            ].join('');
+        }).join('');
+    };
+
+    const renderAwardGroup = (title, iconClass, contentHtml) => {
+        return [
+            '<div class="awardGroup">',
+            '  <div class="awardGroupHead">',
+            '    <span class="awardGroupIconWrap"><i class="fa ' + iconClass + '" aria-hidden="true"></i></span>',
+            '    <h4 class="awardGroupTitle">' + escapeHtml(title) + '</h4>',
+            '  </div>',
+            '  <div class="awardEntryGrid">' + contentHtml + '</div>',
+            '</div>'
+        ].join('');
+    };
+
+    const renderAwards = () => {
+        const $mount = $('#awards');
+
+        if (!$mount.length || !awardsData.films || !awardsData.films.length) {
+            return;
+        }
+
+        const filmsHtml = awardsData.films.map(function (film, index) {
+            const festivalsHtml = film.festivals
+                ? renderAwardGroup(
+                    film.festivalsTitle || 'Major Festival Selections & Forums',
+                    'fa-film',
+                    renderAwardList(film.festivals)
+                )
+                : '';
+
+            const aboutHtml = film.about
+                ? renderAwardGroup(
+                    film.aboutTitle || 'About the Project',
+                    'fa-info-circle',
+                    renderAboutList(film.about)
+                )
+                : '';
+
+            const statHtml = film.stat
+                ? '<p class="awardFilmStat"><i class="fa fa-trophy" aria-hidden="true"></i><span>' + escapeHtml(film.stat) + '</span></p>'
+                : '';
+
+            const indexLabel = String(index + 1).padStart(2, '0');
+
+            return [
+                '<article class="awardFilmCard">',
+                '  <div class="awardFilmHeader">',
+                '    <span class="awardFilmIndex" aria-hidden="true">' + indexLabel + '</span>',
+                '    <div class="awardFilmHeaderMain">',
+                '      <span class="awardFilmBadge">' + escapeHtml(film.type) + '<span class="awardFilmBadgeSep">·</span>' + escapeHtml(film.year) + '</span>',
+                '      <h3>' + escapeHtml(film.title) + '</h3>',
+                statHtml,
+                '    </div>',
+                '  </div>',
+                '  <div class="awardFilmIntroWrap">',
+                '    <p class="awardFilmIntro">' + escapeHtml(film.intro) + '</p>',
+                '  </div>',
+                '  <div class="awardFilmBody">',
+                renderAwardGroup(
+                    film.awardCategoriesTitle || 'Festival Awards & Recognitions',
+                    'fa-trophy',
+                    renderAwardList(film.awardCategories)
+                ),
+                festivalsHtml,
+                aboutHtml,
+                '  </div>',
+                '</article>'
+            ].join('');
+        }).join('');
+
+        $mount.html([
+            '<div class="awardsSection sectionShell mpkPolishSection">',
+            '  <div class="awardsSectionDecor" aria-hidden="true"></div>',
+            '  <div class="awardsSectionHead mpkPolishSectionHead">',
+            '    <p class="sectionEyebrow">' + escapeHtml(awardsData.eyebrow || 'Recognition') + '</p>',
+            '    <h2 class="reveal-on-scroll">' + escapeHtml(awardsData.title) + '</h2>',
+            '    <p class="sectionIntro reveal-on-scroll">' + escapeHtml(awardsData.intro) + '</p>',
+            '  </div>',
+            '  <div class="awardsFilms">' + filmsHtml + '</div>',
+            '</div>'
+        ].join(''));
+    };
+
+    const renderTestimonials = () => {
+        const $mount = $('#testimonials');
+
+        if (!$mount.length || !testimonialsData.items || !testimonialsData.items.length) {
+            return;
+        }
+
+        const itemsHtml = testimonialsData.items.map(function (item) {
+            return [
+                '<blockquote class="testimonialCard reveal-on-scroll">',
+                '  <span class="testimonialMark" aria-hidden="true"><i class="fa fa-quote-left"></i></span>',
+                '  <p class="testimonialQuote">' + escapeHtml(item.quote) + '</p>',
+                '  <cite class="testimonialSource">' + escapeHtml(item.source) + '</cite>',
+                '</blockquote>'
+            ].join('');
+        }).join('');
+
+        $mount.html([
+            '<div class="testimonialsSection sectionShell mpkPolishSection">',
+            '  <div class="mpkPolishSectionHead">',
+            '  <p class="sectionEyebrow">' + escapeHtml(testimonialsData.eyebrow || 'Recognition') + '</p>',
+            '  <h2 class="reveal-on-scroll">' + escapeHtml(testimonialsData.title) + '</h2>',
+            '  <p class="sectionIntro reveal-on-scroll">' + escapeHtml(testimonialsData.intro) + '</p>',
+            '  </div>',
+            '  <div class="testimonialsGrid">' + itemsHtml + '</div>',
             '</div>'
         ].join(''));
     };
@@ -486,8 +752,17 @@
                 return '<span class="productionChip">' + escapeHtml(project) + '</span>';
             }).join('');
 
+            const imageHtml = credit.image
+                ? [
+                    '  <div class="productionCardMedia">',
+                    '    <img src="' + escapeHtml(credit.image) + '" alt="' + escapeHtml(credit.company) + '">',
+                    '  </div>'
+                ].join('')
+                : '';
+
             return [
                 '<article class="productionCard reveal-on-scroll">',
+                imageHtml,
                 '  <h3>' + escapeHtml(credit.company) + '</h3>',
                 '  <span class="productionRole">' + escapeHtml(credit.role) + '</span>',
                 '  <div class="productionChips">' + chips + '</div>',
@@ -500,10 +775,12 @@
         }).join('');
 
         $mount.html([
-            '<div class="productionSection sectionShell reveal-on-scroll">',
+            '<div class="productionSection sectionShell mpkPolishSection reveal-on-scroll">',
+            '  <div class="mpkPolishSectionHead">',
             '  <p class="sectionEyebrow">Behind the camera</p>',
             '  <h2>' + escapeHtml(productionData.title) + '</h2>',
             '  <p class="sectionIntro">' + escapeHtml(productionData.intro) + '</p>',
+            '  </div>',
             '  <div class="productionGrid">' + creditsHtml + '</div>',
             '  <ul class="productionHighlights">' + highlightsHtml + '</ul>',
             '</div>'
@@ -517,37 +794,81 @@
             return;
         }
 
-        const socialHtml = (contactData.social || []).map(function (item) {
-            return '<a href="' + escapeHtml(item.href) + '" target="_blank" rel="noopener" class="contactSocialLink" aria-label="' + escapeHtml(item.label) + ' on ' + escapeHtml(item.icon) + '"><i class="fa fa-' + escapeHtml(item.icon) + '"></i> ' + escapeHtml(item.label) + '</a>';
+        const pressKit = contactData.pressKit || {};
+        const pressKitHtml = pressKit.enabled && pressKit.href
+            ? '<a class="pressKitLink" href="' + escapeHtml(pressKit.href) + '" download><i class="fa fa-download" aria-hidden="true"></i> ' + escapeHtml(pressKit.label || 'Download Press Kit') + '</a>'
+            : '';
+
+        const buildContactTile = (icon, label, value, href, external) => {
+            const content = [
+                '<span class="contactLinkTile__icon" aria-hidden="true"><i class="fa fa-' + escapeHtml(icon) + '"></i></span>',
+                '<span class="contactLinkTile__text">',
+                '  <strong>' + escapeHtml(label) + '</strong>',
+                '  <span>' + escapeHtml(value) + '</span>',
+                '</span>'
+            ].join('');
+
+            if (href) {
+                const externalAttrs = external ? ' target="_blank" rel="noopener"' : '';
+                return '<a class="contactLinkTile" href="' + escapeHtml(href) + '"' + externalAttrs + '>' + content + '</a>';
+            }
+
+            return '<div class="contactLinkTile contactLinkTile--static">' + content + '</div>';
+        };
+
+        const contactTilesHtml = [
+            buildContactTile('envelope', 'Email', contactData.email, 'mailto:' + contactData.email, false),
+            contactData.phone
+                ? buildContactTile('phone', 'Phone', contactData.phone, 'tel:' + String(contactData.phone).replace(/\s/g, ''), false)
+                : '',
+            buildContactTile('map-marker', 'Location', contactData.location, '', false)
+        ].join('');
+
+        const socialTilesHtml = (contactData.social || []).map(function (item) {
+            const tileLabel = item.icon === 'youtube'
+                ? 'YouTube'
+                : (item.icon === 'instagram' ? 'Instagram' : item.label);
+
+            return buildContactTile(item.icon, tileLabel, item.label, item.href, true);
         }).join('');
 
         $mount.html([
-            '<div class="contactSection sectionShell reveal-on-scroll">',
-            '  <div class="contactSectionHeader">',
+            '<div class="contactSection sectionShell mpkPolishSection reveal-on-scroll">',
+            '  <div class="contactSectionHeader mpkPolishSectionHead">',
             '    <p class="sectionEyebrow">Get in touch</p>',
             '    <h2>' + escapeHtml(contactData.title) + '</h2>',
             '    <p class="sectionIntro">' + escapeHtml(contactData.intro) + '</p>',
+            pressKitHtml,
             '  </div>',
-            '  <div class="contactLayout">',
-            '    <div class="contactInfo">',
-            '      <div class="contactCards">',
-            '        <div class="contactCard"><strong>Email</strong><a href="mailto:' + escapeHtml(contactData.email) + '">' + escapeHtml(contactData.email) + '</a></div>',
-            '        <div class="contactCard"><strong>Phone</strong><span>' + escapeHtml(contactData.phone) + '</span></div>',
-            '        <div class="contactCard"><strong>Location</strong><span>' + escapeHtml(contactData.location) + '</span></div>',
+            '  <div class="contactPanel">',
+            '    <div class="contactPanel__grid">',
+            '      <div class="contactPanel__form">',
+            '        <form class="contactForm contactForm--embedded" id="contactForm" novalidate>',
+            '          <h3>Send a message</h3>',
+            '          <div class="contactForm__row">',
+            '            <div class="contactForm__field">',
+            '              <label for="contactName">Name</label>',
+            '              <input type="text" id="contactName" name="name" required autocomplete="name" placeholder="Your name">',
+            '            </div>',
+            '            <div class="contactForm__field">',
+            '              <label for="contactEmail">Email</label>',
+            '              <input type="email" id="contactEmail" name="email" required autocomplete="email" placeholder="you@example.com">',
+            '            </div>',
+            '          </div>',
+            '          <div class="contactForm__field">',
+            '            <label for="contactMessage">Message</label>',
+            '            <textarea id="contactMessage" name="message" rows="3" required placeholder="Tell me about your project..."></textarea>',
+            '          </div>',
+            '          <button type="submit">Send Message</button>',
+            '          <p class="contactFormNote" id="contactFormNote" role="status" aria-live="polite"></p>',
+            '        </form>',
             '      </div>',
-            '      <div class="contactSocial">' + socialHtml + '</div>',
+            '      <aside class="contactPanel__aside" aria-label="Contact information">',
+            '        <h3>Reach directly</h3>',
+            '        <p class="contactPanel__lead">Collaborations, screenings, festivals &amp; press.</p>',
+            '        <div class="contactLinkGrid">' + contactTilesHtml + socialTilesHtml + '</div>',
+            '      </aside>',
             '    </div>',
-            '    <form class="contactForm" id="contactForm" novalidate>',
-            '      <h3>Send a message</h3>',
-            '      <label for="contactName">Name</label>',
-            '      <input type="text" id="contactName" name="name" required autocomplete="name" placeholder="Your full name">',
-            '      <label for="contactEmail">Email</label>',
-            '      <input type="email" id="contactEmail" name="email" required autocomplete="email" placeholder="you@example.com">',
-            '      <label for="contactMessage">Message</label>',
-            '      <textarea id="contactMessage" name="message" rows="5" required placeholder="Write your message here..."></textarea>',
-            '      <button type="submit">Send Message</button>',
-            '      <p class="contactFormNote" id="contactFormNote" role="status" aria-live="polite"></p>',
-            '    </form>',
             '  </div>',
             '</div>'
         ].join(''));
@@ -568,7 +889,7 @@
             '<div class="footerInner">',
             '  <div class="footer-copyright">',
             '    <h5>' + escapeHtml(footerData.copyright || '') + '</h5>',
-            '    <p>' + escapeHtml(footerData.tagline || '') + '</p>',
+            '    <p class="hide-on-mobile">' + escapeHtml(footerData.tagline || '') + '</p>',
             '  </div>',
             '  <div class="footer-social">' + socialHtml + '</div>',
             '</div>'
@@ -680,9 +1001,7 @@
         const storedTarget = sessionStorage.getItem('mpkScrollTarget');
         let scrollTarget = null;
 
-        if (hash && document.querySelector(hash)) {
-            scrollTarget = hash;
-        } else if (storedTarget && document.querySelector(storedTarget)) {
+        if (storedTarget && document.querySelector(storedTarget)) {
             scrollTarget = storedTarget;
             sessionStorage.removeItem('mpkScrollTarget');
         }
@@ -739,6 +1058,17 @@
         window.scrollTo({ top: Math.max(top, 0), behavior: prefersReducedMotion ? 'auto' : 'smooth' });
     };
 
+    const mountMobileOverlay = () => {
+        const overlay = document.getElementById('overlay');
+
+        if (!overlay || overlay.dataset.mounted === 'true') {
+            return;
+        }
+
+        document.body.appendChild(overlay);
+        overlay.dataset.mounted = 'true';
+    };
+
     const setOverlayOpen = (isOpen) => {
         const toggle = document.getElementById('toggle');
         const overlay = document.getElementById('overlay');
@@ -768,9 +1098,19 @@
     };
 
     const bindOverlay = () => {
-        $(document).on('click', '#toggle', function () {
+        mountMobileOverlay();
+
+        $(document).on('click', '#toggle', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
             const isOpen = !$('#overlay').hasClass('open');
             setOverlayOpen(isOpen);
+        });
+
+        $(document).on('click', '#overlay', function (event) {
+            if (event.target === this) {
+                setOverlayOpen(false);
+            }
         });
 
         $(document).on('keydown', function (event) {
@@ -810,26 +1150,83 @@
             return;
         }
 
-        const startTime = Date.now();
+        mountPreloaderLogo();
+        window.scrollTo(0, 0);
+        document.body.classList.remove('loaded');
 
-        const hidePreloader = () => {
-            const elapsed = Date.now() - startTime;
-            const remaining = Math.max(0, preloaderMinDuration - elapsed);
+        const steps = Array.prototype.slice.call(preloader.querySelectorAll('.loaderWords p'));
+        const wordDelay = prefersReducedMotion ? 0 : 850;
+        const holdAfterSequence = prefersReducedMotion ? 0 : 550;
+        let sequenceComplete = false;
+        let pageLoaded = document.readyState === 'complete';
 
-            window.setTimeout(function () {
-                preloader.style.transition = 'opacity 0.5s ease';
-                preloader.style.opacity = '0';
-                window.setTimeout(function () {
-                    preloader.style.display = 'none';
-                    document.body.classList.add('loaded');
-                }, prefersReducedMotion ? 0 : 500);
-            }, prefersReducedMotion ? 0 : remaining);
+        const runWordSequence = (callback) => {
+            if (!steps.length || prefersReducedMotion) {
+                callback();
+                return;
+            }
+
+            let activeIndex = 0;
+
+            const setActive = (index) => {
+                steps.forEach(function (step, stepIndex) {
+                    step.classList.toggle('is-active', stepIndex <= index);
+                });
+            };
+
+            setActive(0);
+
+            const advance = () => {
+                activeIndex += 1;
+                if (activeIndex < steps.length) {
+                    setActive(activeIndex);
+                    window.setTimeout(advance, wordDelay);
+                } else {
+                    window.setTimeout(callback, holdAfterSequence);
+                }
+            };
+
+            if (steps.length > 1) {
+                window.setTimeout(advance, wordDelay);
+            } else {
+                window.setTimeout(callback, holdAfterSequence);
+            }
         };
 
-        if (document.readyState === 'complete') {
-            hidePreloader();
-        } else {
-            window.addEventListener('load', hidePreloader);
+        const hidePreloader = () => {
+            preloader.style.transition = 'opacity 0.5s ease';
+            preloader.style.opacity = '0';
+            window.setTimeout(function () {
+                preloader.style.display = 'none';
+                document.body.classList.add('loaded');
+                window.scrollTo(0, 0);
+            }, prefersReducedMotion ? 0 : 500);
+        };
+
+        const tryFinish = () => {
+            if (!sequenceComplete || !pageLoaded) {
+                return;
+            }
+
+            const minDuration = prefersReducedMotion ? 0 : preloaderMinDuration;
+            const elapsed = Date.now() - startTime;
+            const remaining = Math.max(0, minDuration - elapsed);
+
+            window.setTimeout(hidePreloader, prefersReducedMotion ? 0 : remaining);
+        };
+
+        const startTime = Date.now();
+
+        runWordSequence(function () {
+            sequenceComplete = true;
+            tryFinish();
+        });
+
+        if (!pageLoaded) {
+            window.addEventListener('load', function () {
+                pageLoaded = true;
+                tryFinish();
+            });
         }
     };
 
@@ -968,20 +1365,67 @@
     };
 
     const bindCareerFlipTouch = () => {
+        const setCareerCardFlipped = ($card, isFlipped) => {
+            $card.toggleClass('is-flipped', isFlipped);
+
+            const $btn = $card.find('.careerFlipBtn');
+
+            if (!$btn.length) {
+                return;
+            }
+
+            $btn.text(isFlipped ? 'Back' : 'Open');
+            $btn.attr('aria-label', isFlipped
+                ? 'Back to film details for ' + $card.find('.flip-card-front h1').text()
+                : 'Open poster for ' + $card.find('.flip-card-front h1').text());
+        };
+
+        $(document).on('click', '.careerFlipBtn', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const $card = $(this).closest('.flip-card');
+            const isFlipped = !$card.hasClass('is-flipped');
+
+            setCareerCardFlipped($card, isFlipped);
+        });
+
+        $(document).on('click', '.careerCardGrid .flip-card-back, .careerCardGrid .flip-card-back img, .careerCardGrid .careerFlipBackHint', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const $card = $(this).closest('.flip-card');
+
+            setCareerCardFlipped($card, false);
+        });
+
         $(document).on('click', '.flip-card', function (event) {
-            if ($(event.target).closest('.careerBtn').length) {
+            if ($(event.target).closest('.careerBtn, .careerFlipBtn, .flip-card-back, .careerFlipBackHint').length) {
                 return;
             }
 
             if (window.matchMedia('(hover: none)').matches) {
-                $(this).toggleClass('is-flipped');
+                return;
             }
         });
 
         $(document).on('keydown', '.flip-card', function (event) {
             if (event.key === 'Enter' || event.key === ' ') {
+                if ($(event.target).closest('.careerBtn').length) {
+                    return;
+                }
+
                 event.preventDefault();
-                $(this).toggleClass('is-flipped');
+
+                if ($(event.target).closest('.careerFlipBtn').length) {
+                    $(event.target).trigger('click');
+                    return;
+                }
+
+                const $card = $(this);
+                const isFlipped = !$card.hasClass('is-flipped');
+
+                setCareerCardFlipped($card, isFlipped);
             }
         });
     };
@@ -994,9 +1438,39 @@
             const email = form.email.value.trim();
             const message = form.message.value.trim();
             const note = document.getElementById('contactFormNote');
+            const formEndpoint = contactData.formEndpoint;
 
             if (!name || !email || !message) {
                 note.textContent = 'Please fill in all fields.';
+                return;
+            }
+
+            if (formEndpoint) {
+                note.textContent = 'Sending message...';
+
+                fetch(formEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        message: message,
+                        _subject: 'Portfolio inquiry from ' + name
+                    })
+                }).then(function (response) {
+                    if (!response.ok) {
+                        throw new Error('Request failed');
+                    }
+
+                    form.reset();
+                    note.textContent = 'Thank you! Your message has been sent.';
+                }).catch(function () {
+                    note.textContent = 'Unable to send right now. Please email directly.';
+                });
+
                 return;
             }
 
@@ -1055,14 +1529,49 @@
         });
     };
 
+    const initDeviceMode = () => {
+        const setDevice = () => {
+            const width = window.innerWidth;
+            let device = 'desktop';
+
+            if (width <= 767) {
+                device = 'mobile';
+            } else if (width <= 991) {
+                device = 'tablet';
+            }
+
+            document.documentElement.setAttribute('data-device', device);
+            document.body.classList.toggle('is-mobile', device === 'mobile');
+            document.body.classList.toggle('is-tablet', device === 'tablet');
+        };
+
+        setDevice();
+        window.addEventListener('resize', function () {
+            setDevice();
+
+            if (document.getElementById('portfolio')) {
+                window.clearTimeout(initDeviceMode._timer);
+                initDeviceMode._timer = window.setTimeout(function () {
+                    layoutMasonry(false);
+                }, 150);
+            }
+        });
+        window.addEventListener('orientationchange', setDevice);
+    };
+
     const initIndexPage = () => {
+        initScrollToTop();
+        initDeviceMode();
         renderNavigation('.navbar-nav');
         renderHero();
+        applyBannerImages();
         renderAbout();
         renderCareer();
         renderProjects();
+        renderAwards();
         renderGallery();
         renderProduction();
+        renderTestimonials();
         renderContact();
         renderFooter();
         bindNavigation();
@@ -1088,6 +1597,8 @@
     };
 
     const initProjectPage = () => {
+        initScrollToTop();
+        initDeviceMode();
         renderWorkPageHeader();
         renderProjects({ workPage: true, trailerModal: true });
         initProjectFilters();
@@ -1108,6 +1619,8 @@
 
         initIndexPage();
     };
+
+    initScrollToTop();
 
     $(init);
 

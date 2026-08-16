@@ -1,0 +1,485 @@
+/* Polish layer — Awards, Production, Testimonials, Contact */
+
+.mpkPolishSection {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid rgba(181, 143, 2, 0.14);
+	border-radius: 20px;
+	box-shadow: 0 20px 52px rgba(0, 0, 0, 0.06);
+	background: linear-gradient(180deg, #f7f2dd 0%, #f3edd4 48%, #ededed 100%);
+}
+
+.mpkPolishSection::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 4px;
+	background: linear-gradient(90deg, #6e5a08 0%, #eec833 35%, #f5e06a 50%, #eec833 65%, #6e5a08 100%);
+	pointer-events: none;
+	z-index: 2;
+}
+
+.mpkPolishSectionHead {
+	position: relative;
+	z-index: 1;
+	text-align: center;
+	margin-bottom: 2rem;
+	padding-bottom: 1.25rem;
+}
+
+.mpkPolishSectionHead::after {
+	content: '';
+	display: block;
+	width: min(120px, 30%);
+	height: 3px;
+	margin: 1rem auto 0;
+	border-radius: 999px;
+	background: linear-gradient(90deg, transparent, #b58f02, transparent);
+}
+
+.mpkPolishSection h2 {
+	position: relative;
+	display: inline-block;
+	color: #b58f02;
+}
+
+.mpkPolishSection .sectionEyebrow {
+	color: #9a7a08;
+}
+
+.mpkPolishSection .sectionIntro {
+	color: #444;
+}
+
+/* ===== Awards ===== */
+.mpkPolishSection.awardsSection {
+	background:
+		linear-gradient(180deg, #f7f2dd 0%, #f3edd4 42%, #ededed 100%);
+}
+
+.mpkPolishSection .awardFilmCard {
+	background: #fff;
+	border: 1px solid rgba(181, 143, 2, 0.16);
+	border-radius: 20px;
+	box-shadow: 0 14px 36px rgba(50, 50, 48, 0.07);
+}
+
+.mpkPolishSection .awardFilmCard::before {
+	width: 5px;
+	border-radius: 20px 0 0 20px;
+}
+
+.mpkPolishSection .awardFilmHeader {
+	background:
+		linear-gradient(135deg, rgba(247, 242, 221, 0.98) 0%, #fff 72%);
+	border-bottom: 1px solid rgba(181, 143, 2, 0.14);
+	padding: 1.75rem 1.75rem 1.5rem 2.35rem;
+}
+
+.mpkPolishSection .awardFilmIndex {
+	color: rgba(181, 143, 2, 0.22);
+}
+
+.mpkPolishSection .awardFilmHeader h3 {
+	color: #111;
+}
+
+.mpkPolishSection .awardFilmIntro {
+	color: #444;
+	opacity: 1;
+	font-size: 1rem;
+	line-height: 1.75;
+	margin: 0;
+}
+
+.mpkPolishSection .awardFilmIntroWrap {
+	padding: 1.1rem 1.75rem 0.25rem 2.35rem;
+	background: #fff;
+	border-bottom: 1px solid rgba(181, 143, 2, 0.1);
+}
+
+.mpkPolishSection .awardFilmBody {
+	padding: 1.35rem 1.5rem 1.65rem 2rem;
+	gap: 1.75rem;
+}
+
+.mpkPolishSection .awardGroup {
+	background: linear-gradient(180deg, #fff 0%, rgba(247, 242, 221, 0.45) 100%);
+	border: 1px solid rgba(181, 143, 2, 0.14);
+	border-radius: 14px;
+	padding: 1.15rem 1.2rem;
+	box-shadow: none;
+	border-left: 3px solid rgba(238, 200, 51, 0.65);
+}
+
+.mpkPolishSection .awardGroupHead {
+	border-bottom: 1px solid rgba(181, 143, 2, 0.12);
+	margin-bottom: 0.85rem;
+	padding-bottom: 0.75rem;
+}
+
+.mpkPolishSection .awardEntry {
+	background: transparent;
+	border: none;
+	border-radius: 0;
+	padding: 0.85rem 0;
+	border-bottom: 1px dashed rgba(181, 143, 2, 0.2);
+	box-shadow: none;
+}
+
+.mpkPolishSection .awardEntry:last-child {
+	border-bottom: none;
+	padding-bottom: 0;
+}
+
+.mpkPolishSection .awardEntry:hover {
+	transform: translateX(4px);
+	box-shadow: none;
+	background: linear-gradient(90deg, rgba(238, 200, 51, 0.1), transparent);
+	border-radius: 8px;
+	padding-left: 0.5rem;
+}
+
+.mpkPolishSection .awardEntryDot {
+	width: 8px;
+	height: 8px;
+	margin-top: 0.55rem;
+	box-shadow: 0 0 0 4px rgba(238, 200, 51, 0.18);
+}
+
+/* ===== Production ===== */
+.mpkPolishSection.productionSection {
+	background:
+		radial-gradient(circle at 100% 0%, rgba(238, 200, 51, 0.1) 0%, transparent 38%),
+		linear-gradient(180deg, #f7f2dd 0%, #ededed 100%);
+}
+
+.mpkPolishSection .productionGrid {
+	gap: 2rem;
+	margin-bottom: 2.25rem;
+}
+
+.mpkPolishSection .productionCard {
+	position: relative;
+	background: #fff;
+	border: 1px solid rgba(181, 143, 2, 0.16);
+	border-radius: 18px;
+	padding: 0 0 1.5rem;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+	overflow: visible;
+}
+
+.mpkPolishSection .productionCard::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: 18px;
+	border: 1px solid rgba(181, 143, 2, 0.1);
+	pointer-events: none;
+}
+
+.mpkPolishSection .productionCardMedia {
+	margin: 0;
+	border-radius: 18px 18px 0 0;
+	background: linear-gradient(180deg, #f7f2dd 0%, #fff 100%);
+	border-bottom: 2px solid rgba(238, 200, 51, 0.5);
+}
+
+.mpkPolishSection .productionCardMedia img {
+	height: clamp(130px, 20vw, 190px);
+	padding: 1.25rem;
+	filter: none;
+}
+
+.mpkPolishSection .productionCard h3,
+.mpkPolishSection .productionRole,
+.mpkPolishSection .productionChips {
+	margin-left: 1.5rem;
+	margin-right: 1.5rem;
+}
+
+.mpkPolishSection .productionCard h3 {
+	margin-top: 1.15rem;
+	padding-top: 0.15rem;
+}
+
+.mpkPolishSection .productionHighlights {
+	position: relative;
+	padding: 1.25rem 0.5rem 0.25rem;
+	border-top: 1px solid rgba(181, 143, 2, 0.16);
+}
+
+.mpkPolishSection .productionHighlights::before {
+	content: 'Highlights';
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: #b58f02;
+	margin-bottom: 0.85rem;
+}
+
+.mpkPolishSection .productionHighlights li {
+	background: transparent;
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	padding: 0.35rem 1rem;
+	position: relative;
+	font-style: normal;
+	color: #333;
+}
+
+.mpkPolishSection .productionHighlights li::before {
+	content: '✦';
+	color: #b58f02;
+	margin-right: 0.35rem;
+	font-size: 0.75rem;
+}
+
+/* ===== Testimonials / Recognition & Praise ===== */
+.mpkPolishSection.testimonialsSection {
+	background:
+		radial-gradient(circle at 10% 0%, rgba(238, 200, 51, 0.12) 0%, transparent 36%),
+		linear-gradient(180deg, #f7f2dd 0%, #f3edd4 50%, #ededed 100%);
+	color: #333;
+}
+
+.mpkPolishSection.testimonialsSection .sectionEyebrow {
+	color: #9a7a08;
+}
+
+.mpkPolishSection.testimonialsSection h2 {
+	color: #b58f02;
+}
+
+.mpkPolishSection.testimonialsSection .sectionIntro {
+	color: #444;
+	opacity: 1;
+}
+
+.mpkPolishSection.testimonialsSection .mpkPolishSectionHead::after {
+	background: linear-gradient(90deg, transparent, #b58f02, transparent);
+}
+
+.mpkPolishSection .testimonialsGrid {
+	gap: 1.35rem;
+}
+
+.mpkPolishSection .testimonialCard {
+	position: relative;
+	margin: 0;
+	padding: 1.45rem 1.4rem 1.3rem 4rem;
+	background: #fff;
+	border: 1px solid rgba(181, 143, 2, 0.16);
+	border-radius: 16px;
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.05);
+}
+
+.mpkPolishSection .testimonialCard:nth-child(even) {
+	background: linear-gradient(180deg, #fff 0%, rgba(247, 242, 221, 0.55) 100%);
+}
+
+.mpkPolishSection .testimonialMark {
+	position: absolute;
+	top: 1.15rem;
+	left: 1.15rem;
+	width: 2.1rem;
+	height: 2.1rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: linear-gradient(145deg, #eec833, #b58f02);
+	color: #fff;
+	font-size: 0.85rem;
+	box-shadow: 0 4px 12px rgba(181, 143, 2, 0.28);
+}
+
+.mpkPolishSection .testimonialQuote {
+	color: #333;
+	font-style: italic;
+	line-height: 1.7;
+}
+
+.mpkPolishSection .testimonialQuote::before {
+	content: open-quote;
+	color: #b58f02;
+	font-weight: 700;
+	margin-right: 0.15rem;
+}
+
+.mpkPolishSection .testimonialQuote::after {
+	content: close-quote;
+	color: #b58f02;
+	font-weight: 700;
+	margin-left: 0.1rem;
+}
+
+.mpkPolishSection .testimonialSource {
+	color: #b58f02;
+	font-style: normal;
+	font-weight: 700;
+}
+
+/* ===== Contact ===== */
+.mpkPolishSection.contactSection {
+	background:
+		radial-gradient(circle at 0% 100%, rgba(238, 200, 51, 0.1) 0%, transparent 42%),
+		linear-gradient(180deg, #f7f2dd 0%, #ededed 100%);
+	padding-bottom: clamp(2rem, 4vw, 2.75rem) !important;
+}
+
+.mpkPolishSection .contactLayout--single {
+	gap: 0;
+	max-width: 640px;
+	margin: 0 auto;
+}
+
+.mpkPolishSection .contactPanel {
+	border-color: rgba(181, 143, 2, 0.14);
+	box-shadow: 0 16px 42px rgba(0, 0, 0, 0.07);
+}
+
+.mpkPolishSection .contactPanel__aside {
+	background: linear-gradient(180deg, #fbf8ee 0%, #f0e8cc 100%);
+}
+
+.mpkPolishSection .contactLinkTile__text,
+.mpkPolishSection .contactPanel__lead,
+.mpkPolishSection .contactPanel__aside h3,
+.mpkPolishSection .contactForm--embedded h3,
+.mpkPolishSection .contactForm--embedded label,
+.mpkPolishSection .contactForm--embedded input,
+.mpkPolishSection .contactForm--embedded textarea,
+.mpkPolishSection .contactForm--embedded button {
+	font-family: 'Open Sans', sans-serif;
+	letter-spacing: 0;
+}
+
+.mpkPolishSection .contactForm--compact {
+	padding: 1.35rem 1.4rem 1.5rem;
+}
+
+.mpkPolishSection .contactForm--unified {
+	border: 1px solid rgba(181, 143, 2, 0.14);
+	border-radius: 18px;
+	background: #fff;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+	position: relative;
+	overflow: hidden;
+}
+
+.mpkPolishSection .contactForm--unified::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 4px;
+	background: linear-gradient(90deg, #b58f02, #eec833, #b58f02);
+}
+
+.mpkPolishSection .contactMetaRow {
+	border-bottom-color: rgba(181, 143, 2, 0.14);
+}
+
+.mpkPolishSection .contactMetaItem {
+	background: #f7f2dd;
+	border-color: rgba(181, 143, 2, 0.16);
+	color: #222;
+}
+
+.mpkPolishSection .contactMetaItem:hover,
+.mpkPolishSection .contactMetaItem:focus-visible {
+	background: #fff;
+	color: #8a6d08;
+}
+
+.mpkPolishSection .contactSocial--inline {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.mpkPolishSection .contactSocialLink {
+	background: #f7f2dd;
+	border: 1px solid rgba(181, 143, 2, 0.2);
+	color: #323230;
+	font-size: 0.85rem;
+	padding: 0.45rem 0.8rem;
+	border-radius: 999px;
+}
+
+.mpkPolishSection .contactSocialLink:hover {
+	background: #eec833;
+	color: #111;
+	border-color: #eec833;
+}
+
+.mpkPolishSection .contactForm h3 {
+	color: #b58f02;
+}
+
+.mpkPolishSection .pressKitLink {
+	margin-top: 0.5rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+	.mpkPolishSection .awardFilmBody {
+		grid-template-columns: 1fr;
+		padding: 1.15rem 1.15rem 1.35rem 1.5rem;
+	}
+
+	.mpkPolishSection .awardFilmHeader {
+		padding: 1.35rem 1.25rem 1.15rem 1.5rem;
+	}
+
+	.mpkPolishSection .awardFilmIntroWrap {
+		padding: 1rem 1.25rem 0.25rem 1.5rem;
+	}
+}
+
+@media (max-width: 767px) {
+	.mpkPolishSection {
+		border-radius: 14px;
+	}
+
+	.mpkPolishSection .contactPanel {
+		max-width: 100%;
+	}
+
+	.mpkPolishSection .testimonialCard {
+		padding: 1.15rem 1rem 1rem 3.5rem;
+	}
+
+	.mpkPolishSection .testimonialMark {
+		left: 0.85rem;
+		top: 1rem;
+		width: 2rem;
+		height: 2rem;
+		font-size: 0.78rem;
+	}
+
+	.mpkPolishSection .productionCard h3,
+	.mpkPolishSection .productionRole,
+	.mpkPolishSection .productionChips {
+		margin-left: 1.1rem;
+		margin-right: 1.1rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mpkPolishSection .awardEntry:hover,
+	.mpkPolishSection .contactCard:hover,
+	.mpkPolishSection .productionCard:hover {
+		transform: none;
+	}
+}
